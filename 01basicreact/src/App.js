@@ -1,6 +1,8 @@
+import Himani from "./Himani";
+
 function App() {
   return (
-    <h1>hello world</h1>
+    <Himani/>
   );
 }
 

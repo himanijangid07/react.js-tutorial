@@ -1,7 +1,13 @@
+import Himani from './Himani'
+
 function App() {
+  const username = 'himani'
 
   return (
-    <h1>hello world</h1>
+    <>
+      <Himani/>
+      <h1>React series {username}</h1>
+    </>
   )
 }
 
