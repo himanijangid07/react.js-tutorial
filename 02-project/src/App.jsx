@@ -10,7 +10,12 @@ function App() {
   const addValue = () => {
     console.log('clicked', counter)
     // counter = counter + 1
-    setCounter(counter + 1)
+    if(counter < 20) {
+      setCounter(counter + 1)
+    }
+    else {
+      alert('cannot increase the counter value above 20')
+    }
   }
 
   const removeValue = () => {

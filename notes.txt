@@ -1,0 +1,17 @@
+Naming convention
+- Always name the files in UpperCase
+- Follow the proper library, and name the files accordingly. either jsx or js
+
+For returning inside the functions
+- Use fragments to return multiple components
+
+In vite, it loads the script directly like adding the script tag in the index.html file
+In react, it loads the script indirectly
+
+When we write something like {username}, then it is called as evaluated expression, in which the outcome of the evaluated javascript is passed
+
+Hooks are used in React to update the UI behind the scene, it makes it easier and reduces the task of user
+
+Hydration : Jab pehli baar page load hota hai, buttons aur images dikhte hain (HTML aa gaya), lekin kuch click nahi hota kyunki JavaScript ab tak load nahi hui hoti. Phir jab JavaScript load ho ke React ko HTML ke saath connect karti hai aur sab interactive ho jata hai, us process ko hydration bolte hain. aur ye fibre algorithm k through kaafi achhi hoti hai
+
+Reconciliation is the algorithm to compare two differing trees, and this is what popularly understood as "virtual DOM"
