@@ -12,11 +12,6 @@ When we write something like {username}, then it is called as evaluated expressi
 
 Hooks are used in React to update the UI behind the scene, it makes it easier and reduces the task of user
 
-<<<<<<< HEAD
-Hydration : Jab pehli baar page load hota hai, buttons aur images dikhte hain (HTML aa gaya), lekin kuch click nahi hota kyunki JavaScript ab tak load nahi hui hoti. Phir jab JavaScript load ho ke React ko HTML ke saath connect karti hai aur sab interactive ho jata hai, us process ko hydration bolte hain. aur ye fibre algorithm k through kaafi achhi hoti hai
-
-Reconciliation is the algorithm to compare two differing trees, and this is what popularly understood as "virtual DOM"
-=======
 Hydration : When the page loads for the first time, then we see buttons and images (like HTML), but they are not clickable, because at that time javascript is not loaded. Then, when the javascript loads and connect React with HTML, and everything becomes interactive, then this process is known as hydration. And this is good enough with fibre algorithm.
 
 Reconciliation is the algorithm to compare two differing trees, and this is what popularly understood as "virtual DOM"
@@ -26,4 +21,13 @@ If we have code like this -> setCounter(counter+1) four times, then the counter 
 
 But if we have code like this -> setCounter(prevCounter => prevCounter + 1) four times, then the counter value will increase by 4 at a time or at a single click
 
->>>>>>> a12d82b (new changes)
+Difference between Link and NavLink
+- Link is used in place of "a" tag in HTML, because "a" tag refreshes the whole page, but since in react, there is no refreshing of page, so we use Link tag
+- NavLink provides additional things, apart from what Link provides
+
+One optimized way of fetching data from APIs or making API calls is to use loader inside the Routes of the components. This, already starts the fetching, behind the scenes, even before the user clicks on a particular link.
+
+Using the Outlet, which is provided by react-router-dom, we can do nesting, means, first we provided the layout route, and inside that we provided all our links.
+
+To take the parameters from the url, we can pass it in the route, and then using the useParams hook of react, we can access that parameter from the url.
+
