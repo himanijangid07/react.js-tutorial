@@ -7,18 +7,18 @@ function App() {
 
   return (
     <>
-      <div className='w-full h-screen duration-200' style={{backgroundColor: color}}>
-        <div className='fixed flex flex-wrap justify-center bottom-12 inset-x-0 px-2'>
-          <div className='flex flex-wrap justify-center gap-3 shadow-lg bg-white px-3 py-2 rounded-2xl'>
-            <button onClick={() => {setColor('red')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'red'}}>Red</button>
-            <button onClick={() => {setColor('blue')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'blue'}}>Blue</button>
-            <button onClick={() => {setColor('green')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'green'}}>Green</button>
-            <button onClick={() => {setColor('yellow')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'yellow'}}>Yellow</button>
-            <button onClick={() => {setColor('black')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'black'}}>Black</button>
-            <button onClick={() => {setColor('white')}} className='outline-none px-4 rounded-full py-1 text-black shadow-lg' style={{backgroundColor: 'white'}}>White</button>
-            <button onClick={() => {setColor('orange')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'orange'}}>Orange</button>
-            <button onClick={() => {setColor('purple')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'purple'}}>Purple</button>
-            <button onClick={() => {setColor('purple')}} className='outline-none px-4 rounded-full py-1 text-white shadow-lg' style={{backgroundColor: 'Aqua'}}>Aqua</button>
+      <div className='w-full h-screen duration-200'
+      style={{backgroundColor: color}}>
+        <div className='fixed flex flex-wrap justify-center bottom-12 inset-x-0 px-2 '>
+          <div className='flex flex-wrap justify-center bg-white px-2 py-3 shadow-lg gap-5 rounded-lg'>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('red')}} style={{backgroundColor: "red"}}>Red</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('green')}} style={{backgroundColor: "green"}}>Green</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('blue')}} style={{backgroundColor: "blue"}}>Blue</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('yellow')}} style={{backgroundColor: "yellow"}}>Yellow</button>
+            <button className='px-4 py-1 rounded-lg text-white' onClick={() => {setColor('black')}} style={{backgroundColor: "black"}}>Black</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('purple')}} style={{backgroundColor: "purple"}}>Purple</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('orange')}} style={{backgroundColor: "orange"}}>Orange</button>
+            <button className='px-4 py-1 rounded-lg' onClick={() => {setColor('aqua')}} style={{backgroundColor: "aqua"}}>Aqua</button>
           </div>
         </div>
       </div>

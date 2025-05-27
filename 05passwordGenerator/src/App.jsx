@@ -2,86 +2,80 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 function App() {
 
-  const [length, setLength] = useState(8)
-  const [numberAllowed, setNumberAllowed] = useState(false)
-  const [charAllowed, setCharAllowed] = useState(false)
   const [password, setPassword] = useState("")
+  const [length, setLength] = useState(8)
+  const [numAllowed, setNumAllowed] = useState(false)
+  const [charAllowed, setCharAllowed] = useState(false)
 
   const passwordRef = useRef(null)
 
   const passwordGenerator = useCallback(() => {
     let pass = ""
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    if (numberAllowed) str+= "0123456789"
-    if (charAllowed) str+= "!@#$%^&*-_=+[]{}~`"
-
-    for (let i = 1; i <= length; i++) {
-      let char = Math.floor(Math.random() * str.length + 1)
+    if(numAllowed) str += "1234567890"
+    if(charAllowed) str += "~`!@#$%^&*{}?+-[]"
+    for(let i=1; i<=length; i++) {
+      let char = Math.floor(Math.random()*str.length + 1)
       pass += str.charAt(char)
     }
-
     setPassword(pass)
-
-  }, [length, numberAllowed, charAllowed, setPassword])
-
-  const copyPasswordToClipboard = useCallback(() => {
-    passwordRef.current?.select();
-    passwordRef.current?.setSelectionRange(0, 99)
-    window.navigator.clipboard.writeText(password)
-  }, [password])
+  }, [length, numAllowed, charAllowed, setPassword ])
 
   useEffect(() => {
     passwordGenerator()
-  }, [length, numberAllowed, charAllowed, passwordGenerator])
+  }, [length, numAllowed, charAllowed, passwordGenerator])
+
+  const copyPasswordToClipboard = useCallback(() => {
+    passwordRef.current?.select()
+    passwordRef.current?.setSelectionRange(0, 20)
+    window.navigator.clipboard.writeText(password)
+  }, [password])
 
   return (
     <>
-      <div className='w-full max-w-md mx-auto shadow-md rounded-lg px-4 pt-6 pb-6 my-12 text-orange-500 bg-gray-700'>
-        <h1 className="text-white text-center mb-3 text-2xl">Password Generator</h1>
-        <div className='flex shadow rounded-lg overflow-hidden mb-4'>
+      <div className="b g-gray-700 w-full max-w-md mx-auto my-12 rounded-lg shadow-lg px-4 py-6 text-orange-500">
+        <h1 className="text-white text-center text-2xl p-4 font-bold">Password Generator</h1>
+        <div className="flex">
           <input
-              type="text"
-              value={password}
-              className='outline-none w-full py-1 px-3'
-              placeholder='Password'
-              readOnly
-              ref={passwordRef}
-          />
-          <button onClick={copyPasswordToClipboard} className='outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0'>Copy</button>
+          type="text"
+          value={password}
+          readOnly
+          placeholder='Password'
+          ref={passwordRef}
+          className='outline-none w-full py-1 px-3' />
+          <button onClick={copyPasswordToClipboard} className='bg-blue-600 shrink-0 outline-none px-2 text-white py-0.5'>copy</button>
         </div>
-        <div className="flex text-sm gap-x-2">
-          <div className='flex items-center gap-x-1'>
+        <div className='flex gap-4 text-sm gap-x-2 py-5'>
+          <div className='flex gap-x-1 items-center'>
             <input
-                type="range"
-                min={6}
-                max={100}
-                value={length}
-                className='cursor-pointer'
-                onChange={(e) => {setLength(e.target.value)}}
-            />
+              type="range"
+              name='length'
+              min={6}
+              max={100}
+              value={length}
+              className='cursor-pointer'
+              onChange={(e)  => {setLength(e.target.value)}} />
             <label>Length: {length}</label>
           </div>
           <div className='flex items-center gap-x-1'>
             <input
-                type='checkbox'
-                defaultChecked={numberAllowed}
-                id='numberInput'
-                onChange={() => {
-                  setNumberAllowed((prev) => !prev)
-                }}
-            />
-            <label htmlFor="numberInput">Numbers</label>
+            type="checkbox"
+            defaultChecked={numAllowed}
+            id='numberInput'
+            onChange={() => {
+              setNumAllowed((prev) => !prev)
+            }} />
+            <label htmlFor='numberInput'>Numbers</label>
           </div>
           <div className='flex items-center gap-x-1'>
             <input
-                type='checkbox'
-                defaultChecked={charAllowed}
-                id='charInput'
-                onChange={() => {
-                  setCharAllowed((prev) => !prev)
-                }}
-            />
-            <label htmlFor="charInput">Characters</label>
+            type="checkbox"
+            defaultChecked={charAllowed}
+            id='charInput'
+            onChange={() => {
+              setCharAllowed((prev) => !prev)
+            }} />
+            <label htmlFor='charInput'>Characters</label>
           </div>
         </div>
       </div>
