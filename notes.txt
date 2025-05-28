@@ -31,3 +31,13 @@ Using the Outlet, which is provided by react-router-dom, we can do nesting, mean
 
 To take the parameters from the url, we can pass it in the route, and then using the useParams hook of react, we can access that parameter from the url.
 
+*** Context API in React ***
+- Context is like a global variable, with which components can access the values and data without the other parent component, rendering the same data.
+- While creating, a Context, we need to take care, that there is a provider also of Context, within which we declare the other components, and then those components can access the values and data.
+- Context Provider file is a .jsx file, because it requires the fragments, within which we will include the components, and also it returns jsx, that's why this file will be a .jsx file.
+
+Step 1: First, create a .js file, with the name of whatever Context you want. In that, import react, then declare a variable in which we create a Context, and then export that variable.
+
+Step 2: Create the .jsx file of Context Provider, then wrap in the components inside the fragments, of the Context Provider, and pass the values, whatever we want either in the the form of objects.
+
+Step 3: Import those files in the components wherever we want, and use them.
