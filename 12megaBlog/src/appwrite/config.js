@@ -16,25 +16,29 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, featuredImage, slug, status, userId, content}) {
-        try {
-            return await this.databases.createDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug,
-                {
-                    title,
-                    content,
-                    featuredImage,
-                    userId,
-                    status
-                }
-            )
-        } catch (error) {
-            console.log("Error creating post...", error)
-            throw error
-        }
+    async createPost({ title, featuredImage, slug, status, userId, content }) {
+    try {
+        console.log("Creating post with userId:", userId);
+
+        return await this.databases.createDocument(
+            conf.appwriteDatabaseId,
+            conf.appwriteCollectionId,
+            slug,
+            {
+                title,
+                content,
+                featuredImage,
+                userId,
+                status
+            }
+        );
+    } catch (error) {
+        console.error("Error creating post:", error);
+        return null;
     }
+}
+
+
 
     async updatePost(slug, {title, featuredImage, status, content}) {
         try {
@@ -98,11 +102,12 @@ export class Service {
     // file upload service
     async uploadFile(file) {
         try {
-            await this.bucket.createFile(
+            const response = await this.bucket.createFile(
                 conf.appwriteBucketId,
                 ID.unique(),
                 file
             )
+            return response
         } catch (error) {
             console.log("Error uploading file...", error)
             throw error
@@ -122,12 +127,19 @@ export class Service {
         }
     }
 
-    getFilePreview(fileId) {
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketId,
-            fileId
-        )
-    }
+    // Add this method inside your Service class (e.g. appwrite/config.js)
+
+getFileView(fileId) {
+  try {
+    // Returns the direct URL to the file (string)
+    return this.bucket.getFileView(conf.appwriteBucketId, fileId);
+  } catch (error) {
+    console.error("Error fetching file view URL:", error);
+    throw error;
+  }
+}
+
+
 }
 
 const service = new Service()

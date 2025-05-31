@@ -11,16 +11,21 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    authService.getCurrentUser()
+  authService.getCurrentUser()
     .then((userData) => {
-      if(userData) {
-        dispatch(login(userData))
+      console.log("👤 Appwrite userData from getCurrentUser():", userData);  // <--- ADD THIS
+      if (userData) {
+        dispatch(login({ userData }));
       } else {
-        dispatch(logout())
+        dispatch(logout());
       }
     })
-    .finally(() => setLoading(false))
-  }, [])
+    .catch((err) => {
+      console.error("Error fetching user:", err);
+    })
+    .finally(() => setLoading(false));
+}, []);
+
 
   return !loading ? (
     <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>

@@ -1,82 +1,102 @@
-import React, {useCallback} from 'react'
-import { useForm } from 'react-hook-form'
-import { Button, Input, RTE, Select } from '../index'
-import service from '../../appwrite/config'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import React, { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { Button, Input, RTE, Select } from "..";
+import service from "../../appwrite/config";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-function PostForm({post}) {
-    const {register, handleSubmit, control, getValues, watch, setValue} = useForm({
+export default function PostForm({ post }) {
+    const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
-            title: post?.title || '',
-            slug: post?.slug || "",
+            title: post?.title || "",
+            slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
-        }
-    })
+        },
+    });
 
-    const navigate = useNavigate()
-    const userData = useSelector(state => state.user.userData)
+    const navigate = useNavigate();
+    const userData = useSelector((state) => state.auth.userData);
+console.log("📦 Redux userData in PostForm.jsx:", userData);
+
 
     const submit = async (data) => {
-        if (post) {
-            const file = data.image[0] ? service.uploadFile(data.image[0]) : null
+    console.log("Form submitted with data:", data);
 
-            if(file) {
-                service.deleteFile(post.featuredImage)
-            }
-            const dbPost = await service.updatePost(post.$id, {
-                ...data,
-                featuredImage: file ? file.$id : undefined
-            })
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
-            }
-        } else {
-            const file = await service.uploadFile(data.image[0])
-
-            if(file) {
-                const fileId = file.$id
-                data.featuredImage = fileId
-                const dbPost = await service.createPost({
-                    ...data,
-                    userId: userData.$id
-                })
-
-                if (dbPost) {
-                    navigate(`/post/${dbPost.$id}`)
-                }
-            }
-        }
+    if (!data.slug || data.slug.trim() === "" || data.slug === "-") {
+        alert("Slug is invalid. Please enter a valid title.");
+        return;
     }
 
+    if (!userData?.$id) {
+        alert("User is not logged in or user ID is missing.");
+        console.error("userData is missing:", userData);
+        return;
+    }
+
+    try {
+        let fileId = null;
+
+        if (data.image?.[0]) {
+            const file = await service.uploadFile(data.image[0]);
+            console.log("File uploaded:", file);
+            fileId = file?.$id;
+        }
+
+        data.featuredImage = fileId;
+
+        console.log("Creating post with data:", {
+            ...data,
+            userId: userData.$id,
+        });
+
+        const dbPost = await service.createPost({
+            ...data,
+            userId: userData.$id,
+        });
+
+        console.log("Post created:", dbPost);
+
+        if (dbPost && dbPost.$id) {
+            navigate(`/post/${dbPost.$id}`);
+        } else {
+            console.error("dbPost is undefined or missing $id");
+        }
+
+    } catch (error) {
+        console.error("Error during form submission:", error);
+    }
+};
+
+
+
     const slugTransform = useCallback((value) => {
-        if(value && typeof value === "string")
-            return value
+    if (value && typeof value === "string") {
+        return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-z\d\s]+/g, '-')
-            .replace(/\s/g, '-')
+            .replace(/[^a-z0-9\s-]/g, "")     // remove special chars
+            .replace(/\s+/g, "-")             // replace spaces with -
+            .replace(/-+/g, "-")              // remove duplicate -
+            .replace(/^-+|-+$/g, "");         // trim - from start/end
+    }
+    return "";
+}, []);
 
-        return ''
-    }, [])
+
 
     React.useEffect(() => {
-        const subscription = watch((value, {name}) => {
-            if(name === 'title') {
-                setValue('slug', slugTransform(value.title, {
-                    shouldValidate: true
-                }))
+        const subscription = watch((value, { name }) => {
+            if (name === "title") {
+                setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
-        })
+        });
 
-        return () => {
-            subscription.unsubscribe()
-        }
-    }, [watch, slugTransform, setValue])
-  return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+        return () => subscription.unsubscribe();
+    }, [watch, slugTransform, setValue]);
+
+    return (
+        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
                 <Input
                     label="Title :"
@@ -88,6 +108,7 @@ function PostForm({post}) {
                     label="Slug :"
                     placeholder="Slug"
                     className="mb-4"
+                    readOnly
                     {...register("slug", { required: true })}
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
@@ -123,7 +144,5 @@ function PostForm({post}) {
                 </Button>
             </div>
         </form>
-  )
+    );
 }
-
-export default PostForm
