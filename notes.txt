@@ -41,3 +41,11 @@ Step 1: First, create a .js file, with the name of whatever Context you want. In
 Step 2: Create the .jsx file of Context Provider, then wrap in the components inside the fragments, of the Context Provider, and pass the values, whatever we want either in the the form of objects.
 
 Step 3: Import those files in the components wherever we want, and use them.
+
+For CORS error:
+- Firstly, what is CORS error. It is when the frontend requests the contents from backend, which is served on some other port (backend port) so what happens is that, the server blocks the requests from the other ports, requesting that content.
+- Because of this, we can't connect our frontend and backend, and have issues in our project.
+- To remove the CORS error, there are multiple ways:
+--> From backend: Whitelist the frontend port or url, so that the server knows that it should give the access of backend content to this particular frontend.
+--> From frontend: Set the proxies in the frontend, where we can add our backend url, and then the frontend and backend will serve on the same url, and there will be no error related to CORS.
+--> There are many other ways as well, to remove the CORS error, and it depends on the how you are developing the frontend, using which method. So, somewhere it also depends on the type of method, because each method has their own way of removing the CORS error.
